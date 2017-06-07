@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlobStorageExample", "BlobStorageExample\ConsoleApp1\BlobStorageExample.csproj", "{79D372E1-169F-4905-A7F6-69126598B589}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureStorageTable", "AzureStorageTable\AzureStorageTable\AzureStorageTable.csproj", "{79873E60-D0D3-4525-A491-2B251C09FAC0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureServiceBusTopic", "AzureServiceBus\AzureServiceBus\AzureServiceBusTopic.csproj", "{610F61D6-99BC-485A-A3B9-8F2F9495774A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureServiceBusQueueSender", "AzureServiceBusQueue\AzureServiceBusQueue\AzureServiceBusQueueSender.csproj", "{AB52EFD3-65A8-4B35-B201-677936BCE74D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureServiceBusQueueReceiver", "AzureServiceBusQueueReceiver\AzureServiceBusQueueR\AzureServiceBusQueueReceiver.csproj", "{70B5777E-1BD9-482F-82B0-06FCEEB771D8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{79D372E1-169F-4905-A7F6-69126598B589}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79D372E1-169F-4905-A7F6-69126598B589}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79D372E1-169F-4905-A7F6-69126598B589}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79D372E1-169F-4905-A7F6-69126598B589}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79873E60-D0D3-4525-A491-2B251C09FAC0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79873E60-D0D3-4525-A491-2B251C09FAC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79873E60-D0D3-4525-A491-2B251C09FAC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79873E60-D0D3-4525-A491-2B251C09FAC0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{610F61D6-99BC-485A-A3B9-8F2F9495774A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{610F61D6-99BC-485A-A3B9-8F2F9495774A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{610F61D6-99BC-485A-A3B9-8F2F9495774A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{610F61D6-99BC-485A-A3B9-8F2F9495774A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB52EFD3-65A8-4B35-B201-677936BCE74D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB52EFD3-65A8-4B35-B201-677936BCE74D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB52EFD3-65A8-4B35-B201-677936BCE74D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB52EFD3-65A8-4B35-B201-677936BCE74D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70B5777E-1BD9-482F-82B0-06FCEEB771D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70B5777E-1BD9-482F-82B0-06FCEEB771D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70B5777E-1BD9-482F-82B0-06FCEEB771D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70B5777E-1BD9-482F-82B0-06FCEEB771D8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
