@@ -1,0 +1,195 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "phvmstType": {
+      "type": "string",
+      "defaultValue": "Standard_LRS",
+      "allowedValues": [
+        "Standard_LRS",
+        "Standard_ZRS",
+        "Standard_GRS",
+        "Standard_RAGRS",
+        "Premium_LRS"
+      ]
+    },
+    "ph-arm-vmName": {
+      "type": "string",
+      "minLength": 1
+    },
+    "ph-arm-vmAdminUserName": {
+      "type": "string",
+      "minLength": 1
+    },
+    "ph-arm-vmAdminPassword": {
+      "type": "securestring"
+    },
+    "ph-arm-vmWindowsOSVersion": {
+      "type": "string",
+      "defaultValue": "2012-R2-Datacenter",
+      "allowedValues": [
+        "2008-R2-SP1",
+        "2012-Datacenter",
+        "2012-R2-Datacenter",
+        "Windows-Server-Technical-Preview"
+      ]
+    },
+    "ph-vm-ipDnsName": {
+      "type": "string",
+      "minLength": 1
+    }},
+  "variables": {
+    "phvmstName": "[concat('phvmst', uniqueString(resourceGroup().id))]",
+    "ph-vm-vnPrefix": "10.0.0.0/16",
+    "ph-vm-vnSubnet1Name": "Subnet-1",
+    "ph-vm-vnSubnet1Prefix": "10.0.0.0/24",
+    "ph-vm-vnSubnet2Name": "Subnet-2",
+    "ph-vm-vnSubnet2Prefix": "10.0.1.0/24",
+    "ph-arm-vmImagePublisher": "MicrosoftWindowsServer",
+    "ph-arm-vmImageOffer": "WindowsServer",
+    "ph-arm-vmOSDiskName": "ph-arm-vmOSDisk",
+    "ph-arm-vmVmSize": "Standard_D2_v2",
+    "ph-arm-vmVnetID": "[resourceId('Microsoft.Network/virtualNetworks', 'ph-vm-vn')]",
+    "ph-arm-vmSubnetRef": "[concat(variables('ph-arm-vmVnetID'), '/subnets/', variables('ph-vm-vnSubnet1Name'))]",
+    "ph-arm-vmStorageAccountContainerName": "vhds",
+    "ph-arm-vmNicName": "[concat(parameters('ph-arm-vmName'), 'NetworkInterface')]",
+    "ph-vm-ipName": "harlapur-arm-ip"},
+  "resources": [
+    {
+      "name": "[variables('phvmstName')]",
+      "type": "Microsoft.Storage/storageAccounts",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2016-01-01",
+      "sku": {
+        "name": "[parameters('phvmstType')]"
+      },
+      "dependsOn": [ ],
+      "tags": {
+        "displayName": "phvmst"
+      },
+      "kind": "Storage"
+    },
+    {
+      "name": "ph-vm-vn",
+      "type": "Microsoft.Network/virtualNetworks",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2016-03-30",
+      "dependsOn": [ ],
+      "tags": {
+        "displayName": "ph-vm-vn"
+      },
+      "properties": {
+        "addressSpace": {
+          "addressPrefixes": [
+            "[variables('ph-vm-vnPrefix')]"
+          ]
+        },
+        "subnets": [
+          {
+            "name": "[variables('ph-vm-vnSubnet1Name')]",
+            "properties": {
+              "addressPrefix": "[variables('ph-vm-vnSubnet1Prefix')]"
+            }
+          },
+          {
+            "name": "[variables('ph-vm-vnSubnet2Name')]",
+            "properties": {
+              "addressPrefix": "[variables('ph-vm-vnSubnet2Prefix')]"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "[variables('ph-arm-vmNicName')]",
+      "type": "Microsoft.Network/networkInterfaces",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2016-03-30",
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/virtualNetworks', 'ph-vm-vn')]",
+        "[resourceId('Microsoft.Network/publicIPAddresses', variables('ph-vm-ipName'))]"
+      ],
+      "tags": {
+        "displayName": "ph-arm-vmNic"
+      },
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "ipconfig1",
+            "properties": {
+              "privateIPAllocationMethod": "Dynamic",
+              "subnet": {
+                "id": "[variables('ph-arm-vmSubnetRef')]"
+              },
+              "publicIPAddress": {
+                "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('ph-vm-ipName'))]"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "[parameters('ph-arm-vmName')]",
+      "type": "Microsoft.Compute/virtualMachines",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2015-06-15",
+      "dependsOn": [
+        "[resourceId('Microsoft.Storage/storageAccounts', variables('phvmstName'))]",
+        "[resourceId('Microsoft.Network/networkInterfaces', variables('ph-arm-vmNicName'))]"
+      ],
+      "tags": {
+        "displayName": "ph-arm-vm"
+      },
+      "properties": {
+        "hardwareProfile": {
+          "vmSize": "[variables('ph-arm-vmVmSize')]"
+        },
+        "osProfile": {
+          "computerName": "[parameters('ph-arm-vmName')]",
+          "adminUsername": "[parameters('ph-arm-vmAdminUsername')]",
+          "adminPassword": "[parameters('ph-arm-vmAdminPassword')]"
+        },
+        "storageProfile": {
+          "imageReference": {
+            "publisher": "[variables('ph-arm-vmImagePublisher')]",
+            "offer": "[variables('ph-arm-vmImageOffer')]",
+            "sku": "[parameters('ph-arm-vmWindowsOSVersion')]",
+            "version": "latest"
+          },
+          "osDisk": {
+            "name": "ph-arm-vmOSDisk",
+            "vhd": {
+              "uri": "[concat(reference(resourceId('Microsoft.Storage/storageAccounts', variables('phvmstName')), '2016-01-01').primaryEndpoints.blob, variables('ph-arm-vmStorageAccountContainerName'), '/', variables('ph-arm-vmOSDiskName'), '.vhd')]"
+            },
+            "caching": "ReadWrite",
+            "createOption": "FromImage"
+          }
+        },
+        "networkProfile": {
+          "networkInterfaces": [
+            {
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('ph-arm-vmNicName'))]"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "[variables('ph-vm-ipName')]",
+      "type": "Microsoft.Network/publicIPAddresses",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2016-03-30",
+      "dependsOn": [ ],
+      "tags": {
+        "displayName": "ph-vm-ip"
+      },
+      "properties": {
+        "publicIPAllocationMethod": "Dynamic",
+        "dnsSettings": {
+          "domainNameLabel": "[parameters('ph-vm-ipDnsName')]"
+        }
+      }
+    }],
+  "outputs": {}
+}
