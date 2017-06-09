@@ -1,0 +1,1 @@
+C:\Workspace\AzureTraining\BlobStorageExample\ConsoleApp1\obj\Debug\BlobStorageExample.csprojResolveAssemblyReference.cache

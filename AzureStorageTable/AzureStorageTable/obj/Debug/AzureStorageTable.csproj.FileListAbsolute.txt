@@ -1,0 +1,1 @@
+C:\Workspace\AzureTraining\AzureStorageTable\AzureStorageTable\obj\Debug\AzureStorageTable.csprojResolveAssemblyReference.cache

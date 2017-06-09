@@ -1,0 +1,9 @@
+C:\Workspace\AzureTraining\AzureCache\bin\Debug\AzureCache.exe.config
+C:\Workspace\AzureTraining\AzureCache\bin\Debug\AzureCache.exe
+C:\Workspace\AzureTraining\AzureCache\bin\Debug\AzureCache.pdb
+C:\Workspace\AzureTraining\AzureCache\bin\Debug\Newtonsoft.Json.dll
+C:\Workspace\AzureTraining\AzureCache\bin\Debug\StackExchange.Redis.dll
+C:\Workspace\AzureTraining\AzureCache\bin\Debug\Newtonsoft.Json.xml
+C:\Workspace\AzureTraining\AzureCache\bin\Debug\StackExchange.Redis.xml
+C:\Workspace\AzureTraining\AzureCache\obj\Debug\AzureCache.exe
+C:\Workspace\AzureTraining\AzureCache\obj\Debug\AzureCache.pdb
